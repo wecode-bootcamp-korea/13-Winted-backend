@@ -13,7 +13,8 @@ class Resume(models.Model):
 class UserCareer(models.Model):
     company_name    = models.CharField(max_length=50)
     position        = models.CharField(max_length=50)
-    year_of_service = models.DateField(max_length=50)
+    start_date      = models.DateField(max_length=50, null = True)
+    end_date        = models.DateField(max_length=50, null = True)
     resume          = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     class Meta:
@@ -23,7 +24,8 @@ class Education(models.Model):
     university_name = models.CharField(max_length=50)
     major           = models.CharField(max_length=50)
     subject         = models.CharField(max_length=50)
-    year_of_service = models.DateField(max_length=50)
+    start_date      = models.DateField(max_length=50, null = True)
+    end_date        = models.DateField(max_length=50, null = True)
     resume          = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     class Meta:
@@ -32,7 +34,7 @@ class Education(models.Model):
 class Award(models.Model):
     activity_name   = models.CharField(max_length=50)
     detail          = models.CharField(max_length=50)
-    year_of_service = models.DateField(max_length=50)
+    date            = models.DateField(max_length=50, null = True)
     resume          = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     class Meta:
