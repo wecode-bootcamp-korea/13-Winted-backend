@@ -93,3 +93,11 @@ class CompanyTag(models.Model):
 
     class Meta:
         db_table = 'company_tags'
+
+class MapInformation(models.Model):
+    latitude  = models.DecimalField(max_digits = 9, decimal_places = 6)
+    longitude = models.DecimalField(max_digits = 9, decimal_places = 6)
+    company   = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'map_informations'

@@ -6,8 +6,7 @@ from django.db.models import Q
 
 from company.models import (
     Company,
-    ExploreMainCategory, 
-    Salary,
+    ExploreMainCategory, Salary,
     TagCategory,
     City,
     Career,
@@ -43,7 +42,7 @@ class FilterView(View): # 탐색페이지 필터(태그,지역,경력) 리스트
 
             return JsonResponse({'message' : 'SUCCESS', 'tag_list' : tag_list}, status = 200)
         
-        if filter_type == 'city':
+        elif filter_type == 'city':
             city_list = [{
             'id'   : city.id,
             'name' : city.name,
@@ -55,13 +54,16 @@ class FilterView(View): # 탐색페이지 필터(태그,지역,경력) 리스트
 
             return JsonResponse({'message' : 'SUCCESS', 'city_list' : city_list}, status = 200)
 
-        if filter_type == 'career':
+        elif filter_type == 'career':
             career_list = [{
             'id'   : career.id,
             'name' : career.name
         } for career in Career.objects.all()]
 
             return JsonResponse({'message' : 'SUCCESS', 'career_list' : career_list}, status = 200)
+        
+        else:
+            return JsonResponse({'message' : 'INVALID_FILTER_TYPE'}, status = 400)
 
 class CompanyListView(View): # 탐색페이지 회사공고 리스트
     @token_check
@@ -120,15 +122,20 @@ class CompanyListView(View): # 탐색페이지 회사공고 리스트
             'city'          : job.district.city.name,
             'compensation'  : job.compensation.applicant + job.compensation.recommender,
             'likes_count'   : job.likes_count,
-            'image_url'     : job.image_url,
+            'image_url'     : job.image_url.split(',')[0],
             'like_status'   : True if (user != None) and (job.id in like_list) else False
         } for job in company_list[offset:limit]]
 
         return JsonResponse({'message' : 'SUCCESS', 'job_list' : job_list}, status = 200)
 
 class CompanyListDetailView(View): # 회사공고 상세페이지
+    @token_check
     def get(self, request, company_id):
+        access_token = request.headers.get('Authorization', None)
+        user         = request.user if access_token != None else None
+
         job = Company.objects.select_related('response_rate', 'district__city', 'compensation').get(id = company_id)
+        location     = job.mapinformation_set.first()
         company_tags = job.company_tag.all()
 
         job_detail = {
@@ -143,6 +150,8 @@ class CompanyListDetailView(View): # 회사공고 상세페이지
             'contents'                 : job.contents,
             'deadline'                 : job.deadline,
             'address'                  : job.address,
+            'location'                 : [location.latitude, location.longitude],
+            'like_status'              : True if (user != None) and (job.likes.exists()) else False,
             'image_url'                : [image for image in job.image_url.split(',')],
             'tag_list' : [{
                 'id'   : tag.id,
