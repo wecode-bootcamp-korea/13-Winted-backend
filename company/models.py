@@ -81,6 +81,7 @@ class Company(models.Model):
     compensation         = models.ForeignKey(Compensation, on_delete=models.CASCADE)
     response_rate        = models.ForeignKey(ResponseRate, on_delete=models.CASCADE)
     explore_sub_category = models.ForeignKey(ExploreSubCategory, on_delete=models.CASCADE)
+    career               = models.ForeignKey(Career, on_delete=models.CASCADE)
     company_tag          = models.ManyToManyField(Tag, through='CompanyTag', related_name='company_tags')
 
     class Meta:
