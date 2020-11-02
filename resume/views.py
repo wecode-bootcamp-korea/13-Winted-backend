@@ -47,10 +47,10 @@ class ResumeListView(View): # 이력서 리스트
     @token_check
     def delete(self, request):
         try:
-            data = json.loads(request.body)
+            resume_id = request.GET.get('id')
 
-            if Resume.objects.filter(id = data['id']).exists():
-                Resume.objects.get(id = data['id']).delete()
+            if Resume.objects.filter(id = resume_id).exists():
+                Resume.objects.get(id = resume_id).delete()
 
             return JsonResponse({'message' : 'SUCCESS'}, status = 200)
 
@@ -169,16 +169,12 @@ class UserCareerView(View): # 경력 등록,삭제
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
     
     def delete(self, request, resume_id):
-        try:
-            data = json.loads(request.body)
+        career_id = request.GET.get('id')
 
-            if UserCareer.objects.filter(id = data['career_id']).exists():
-                UserCareer.objects.get(id = data['career_id']).delete()
+        if UserCareer.objects.filter(id = career_id).exists():
+            UserCareer.objects.get(id = career_id).delete()
 
-            return JsonResponse({'message' : 'SUCCESS'}, status = 200)
-
-        except KeyError as ex:
-            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
+        return JsonResponse({'message' : 'SUCCESS'}, status = 200)
 
 class EducationView(View): # 학력 등록, 삭제
     def post(self, request, resume_id):
@@ -189,8 +185,8 @@ class EducationView(View): # 학력 등록, 삭제
                 university_name = data['university_name'],
                 major           = data['major'],
                 subject         = data['subject'],
-                start_date      = data['start_date'],
-                end_date        = data['end_date'],
+                start_date      = data['education_start_date'],
+                end_date        = data['education_end_date'],
                 resume_id       = resume_id
             )
             
@@ -200,16 +196,12 @@ class EducationView(View): # 학력 등록, 삭제
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
 
     def delete(self, request, resume_id):
-        try:
-            data = json.loads(request.body)
+        education_id = request.GET.get('id')
 
-            if Education.objects.filter(id = data['education_id']).exists():
-                Education.objects.get(id = data['education_id']).delete()
+        if Education.objects.filter(id = education_id).exists():
+            Education.objects.get(id = education_id).delete()
 
-            return JsonResponse({'message' : 'SUCCESS'}, status = 200)
-
-        except KeyError as ex:
-            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
+        return JsonResponse({'message' : 'SUCCESS'}, status = 200)
 
 class AwardView(View): # 수상내역 등록, 삭제
     def post(self, request, resume_id):
@@ -229,16 +221,12 @@ class AwardView(View): # 수상내역 등록, 삭제
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
     
     def delete(self, request, resume_id):
-        try:
-            data = json.loads(request.body)
+        award_id = request.GET.get('id')
 
-            if Award.objects.filter(id = data['award_id']).exists():
-                Award.objects.get(id = data['award_id']).delete()
+        if Award.objects.filter(id = award_id).exists():
+            Award.objects.get(id = award_id).delete()
 
-            return JsonResponse({'message' : 'SUCCESS'}, status = 200)
-
-        except KeyError as ex:
-            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
+        return JsonResponse({'message' : 'SUCCESS'}, status = 200)
 
 class ForeignLanguageView(View): # 외국어 등록, 삭제
     def post(self, request, resume_id):
@@ -257,13 +245,9 @@ class ForeignLanguageView(View): # 외국어 등록, 삭제
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
 
     def delete(self, request, resume_id):
-        try:
-            data = json.loads(request.body)
+        language_id = request.GET.get('id')
 
-            if ForeignLanguage.objects.filter(id = data['language_id']).exists():
-                ForeignLanguage.objects.get(id = data['language_id']).delete()
+        if ForeignLanguage.objects.filter(id = language_id).exists():
+            ForeignLanguage.objects.get(id = language_id).delete()
 
-            return JsonResponse({'message' : 'SUCCESS'}, status = 200)
-
-        except KeyError as ex:
-            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
+        return JsonResponse({'message' : 'SUCCESS'}, status = 200)

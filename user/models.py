@@ -5,7 +5,7 @@ class User(models.Model):
     password          = models.CharField(max_length=200)
     phone             = models.CharField(max_length=50,null=True)
     name              = models.CharField(max_length=50,null=True)
-    profile_image_url = models.CharField(max_length=200)
+    profile_image_url = models.URLField(max_length=2000)
     recommender       = models.ManyToManyField('self', symmetrical=False, through='recommend.Recommender', related_name='recommenders')
     apllied_status    = models.ManyToManyField('company.Company', through='AppliedStatus', related_name='applied_status')
     likes             = models.ManyToManyField('company.Company', through='Like', related_name='likes')

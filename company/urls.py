@@ -1,13 +1,12 @@
 from django.urls import path
 
-from company.views import(
+from company.views import (
     ExploreCategoryView,
     CompanyListView,
     CompanyListDetailView,
     FilterView,
-    JobSalaryView,
+    JobSalaryView
 )
-
 urlpatterns = [
     path('/category', ExploreCategoryView.as_view()),
     path('', CompanyListView.as_view()),

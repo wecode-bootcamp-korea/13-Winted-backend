@@ -16,6 +16,7 @@ from company.models import (
     Tag,
     City,
     Career,
+    MapInformation
 )
 
 class ExploreCategoryTest(TestCase): # 탐색페이지 카테고리 테스트
@@ -176,6 +177,16 @@ class FilterTest(TestCase): # 필터리스트 테스트
         client = Client()
         response = client.get('/company/filter/career/')
         self.assertEqual(response.status_code, 404)
+    
+    def test_filter_invalid_filter_type(self):
+        client = Client()
+        response = client.get('/company/filter/tag1')
+        self.assertEqual(response.json(),
+            {
+                'message' : 'INVALID_FILTER_TYPE'
+            }
+        )
+        self.assertEqual(response.status_code, 400)
 
 class CompanyListTest(TestCase):
     def setUp(self):
@@ -223,7 +234,7 @@ class CompanyListTest(TestCase):
             title                   = 'title',
             likes_count             = 100,
             contents                = 'contents',
-            image_url               = 'image_url',
+            image_url               = 'image_url, image_url2',
             deadline                = 'deadline',
             address                 = 'address',
             career_id               = 1,
@@ -250,6 +261,13 @@ class CompanyListTest(TestCase):
             tag_id     = 1
         )
 
+        MapInformation.objects.create(
+            id         = 1,
+            latitude   = 100,
+            longitude  = 100,
+            company_id = 1
+        )
+
     def tearDown(self):
         Career.objects.all().delete()
         Compensation.objects.all().delete()
@@ -261,6 +279,7 @@ class CompanyListTest(TestCase):
         Company.objects.all().delete()
         Tag.objects.all().delete()
         CompanyTag.objects.all().delete()
+        MapInformation.objects.all().delete()
 
     def test_companylist_get_success(self):
         client = Client()
@@ -303,10 +322,12 @@ class CompanyListTest(TestCase):
                     'compensation_recommender' : 100,
                     'compensation_applicant'   : 100,
                     'likes_count'              : 100,
-                    'image_url'                : 'image_url',
                     'contents'                 : 'contents',
                     'deadline'                 : 'deadline',
                     'address'                  : 'address',
+                    'location'                 : ['100.000000', '100.000000'],
+                    'like_status'              : False,
+                    'image_url'                : ['image_url', ' image_url2'],
                     'tag_list' : [{
                         'id'   : 1,
                         'name' : 'tag'
