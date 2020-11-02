@@ -1,6 +1,8 @@
 from django.test   import TestCase, Client
 from unittest.mock import patch, MagicMock
 
+from django.test.utils import captured_stderr
+
 from company.models import (
     Company, 
     CompanyTag, 

@@ -10,10 +10,10 @@ from my_settings  import SECRET,ALGORITHM
 def token_check(func): 
     def wrapper(self, request, *args, **kwargs):
 
-        if "AUTHORIZATION" not in request.headers: 
-            return JsonResponse({"message" : "INVALID_LOGIN"}, status=400)
+        encode_token = request.headers.get('AUTHORIZATION', None)
 
-        encode_token = request.headers["AUTHORIZATION"] 
+        if encode_token == None: 
+            return func(self, request, *args, **kwargs)
 
         try:
             user_id     = jwt.decode(encode_token, SECRET, algorithm = ALGORITHM)                         

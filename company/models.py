@@ -2,14 +2,14 @@ from django.db import models
 
 class ExploreMainCategory(models.Model):
     name      = models.CharField(max_length=50)
-    image_url = models.CharField(max_length=200)
+    image_url = models.URLField(max_length=2000)
 
     class Meta:
         db_table = 'explore_main_categories'
 
 class ExploreSubCategory(models.Model):
     name      = models.CharField(max_length=50)
-    image_url = models.CharField(max_length=200)
+    image_url = models.URLField(max_length=2000)
     category  = models.ForeignKey(ExploreMainCategory, on_delete = models.CASCADE)
 
     class Meta:
@@ -74,7 +74,7 @@ class Company(models.Model):
     title                = models.CharField(max_length=50)
     likes_count          = models.IntegerField(default=0)
     contents             = models.CharField(max_length=1000)
-    image_url            = models.CharField(max_length=200)
+    image_url            = models.URLField(max_length=2000)
     deadline             = models.CharField(max_length=50)
     address              = models.CharField(max_length=50)
     district             = models.ForeignKey(District, on_delete=models.CASCADE)
