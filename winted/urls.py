@@ -4,4 +4,5 @@ urlpatterns = [
     path('company', include('company.urls')),
     path('resume', include('resume.urls')),
     path('recommend', include('recommend.urls')),
+    path('user', include('user.urls')),
 ]
