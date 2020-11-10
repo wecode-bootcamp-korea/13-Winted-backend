@@ -19,11 +19,11 @@ def token_check(func):
             user_id     = jwt.decode(encode_token, SECRET, algorithm = ALGORITHM)                         
             user_filter = User.objects.get(id=user_id["user_id"])
             
-            if user_filter :
+            if user_filter:
                 request.user = user_filter
                 return func(self, request,*args ,**kwargs) 
-            else : 
-                return JsonResponse({"message":"INVALID_USER"}, status=400)
+             
+            return JsonResponse({"message":"INVALID_USER"}, status=400)
         
         except jwt.DecodeError:
             return JsonResponse({"message":"INVALID_TOKEN"}, status=400)
