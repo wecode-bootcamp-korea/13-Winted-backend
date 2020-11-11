@@ -39,8 +39,7 @@ class SignUpView(View):
             email         = data ["email"]
             password      = data ["password"]
             name          = data ["name"]
-            phone         = data ["phone"]
-            phoneRegex    = re.compile(r'(\d{2,3}\d{3,4}\d{4})', re.VERBOSE)  
+            phone         = data ["phone"] 
             hash_password = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt()).decode('utf-8')
             
             User.objects.create(
@@ -83,40 +82,44 @@ class SignInView(View):
 class KakaoLoginView(View):
     def post(self, request):
         try:
-            API_HOST = 'https://kapi.kakao.com/v2/user/me'
-
+            
             access_token    = request.headers.get('Authorization')
-            print(access_token)
-            request_headers = {'Authorization' : f'Bearer {access_token}'}
-
-            response  = requests.get(API_HOST, headers = request_headers)
-            user_data = json.loads(response.text)['kakao_account']
-
-            if not User.objects.filter(email = user_data['email']).exists():
-                User.objects.create(
-                    email             = user_data['email'],
-                    password          = '',
-                    phone             = '',
-                    name              = user_data['profile']['nickname'],
-                    profile_image_url = user_data['profile']['profile_image_url']
-                )
-
-            users = User.objects.get(email = user_data['email'])
-            user_data = {
-                'id'               : users.id,
-                'email'            : users.email,
-                'phone'            : users.phone,
-                'name'             : users.name,
-                'profile_image_url': users.profile_image_url
+            profile_request = requests.get(                               
+            "https://kapi.kakao.com/v2/user/me", headers={"Authorization" : f"Bearer {access_token}"},
+            )
+            
+            profile_json  = profile_request.json()
+            kakao_account = profile_json.get("kakao_account")
+            email         = kakao_account.get("email", None)
+            url           = profile_json['kakao_account']['profile']["profile_image_url"]
+            name          = profile_json['kakao_account']['profile']["nickname"]
+            kakao_id      = profile_json['id']
+            users         = User.objects.filter(email=email)
+            user_data     = {
+                'id'               : kakao_id,
+                'email'            : email,
+                'name'             : name,
+                'profile_image_url': url
             }
-            winted_token    = jwt.encode({'user_id' : users.id}, SECRET, algorithm = ALGORITHM).decode('utf-8')
+                
+            if not users : 
+                User.objects.create(
+                    email=email,
+                    password='',
+                    phone = '',
+                    name=name ,
+                    profile_image_url=url
+                )
+                winted_token   = jwt.encode({'user_id' : users.id}, SECRET, algorithm = ALGORITHM).decode('utf-8')
+                return JsonResponse({"message":"SUCCESS",'authorization':winted_token,'user_data' : user_data},status=201)
 
-            return JsonResponse({'message' : 'SUCCESS', 'authorization': winted_token, 'user_data' : user_data}, status = 200)
+            else:
+                winted_token   = jwt.encode({'user_id' : users[0].id}, SECRET, algorithm = ALGORITHM).decode('utf-8')
+                return JsonResponse({"message":"SUCCESS",'authorization':winted_token,'user_data' : user_data},status=201)
 
-        except KeyError as ex:
-            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status = 400)
-        except ValueError as ex:
-            return JsonResponse({'message' : 'VALUE_ERROR_' + ex.args[0]}, status = 400)
+        except  :
+            return JsonResponse({'message' : 'VALUE_ERROR_' }, status = 400)
+
 
             
 class LikeView(View):
@@ -236,23 +239,23 @@ class TagView(View):
     def get(self , request):
         user_id = request.user.id 
         
-        tag_list=[
+        tag=[
                 { 
                 "id"    :tags.id , 
                 "name"  :tags.name 
             } for tags in  User.objects.get(id=user_id).tag_filters.select_related()]
             
-        district_list=[
+        city=[
                 {     
                 "id"       :district.id , 
                 "city"     :district.city.name,
                 "district" :district.name           
             } for district in  User.objects.get(id=user_id).district_filters.select_related()]
         
-        career_list=[
+        career=[
                 {     
                 "id"   :career.id , 
                 "name" :career.name            
             } for career in  User.objects.get(id=user_id).career_filters.select_related()]
         
-        return JsonResponse( {"message":"SUCCESS","tag_list":tag_list , "district_list" :district_list ,"career_list" :career_list},status=201)
+        return JsonResponse( {"message":"SUCCESS","tag":tag , "city" :city ,"career" :career},status=201)
