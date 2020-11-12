@@ -116,7 +116,7 @@ class KakaoLoginView(View):
                     name=name ,
                     profile_image_url=url
                 )
-                winted_token   = jwt.encode({'user_id' : users.id}, SECRET, algorithm = ALGORITHM).decode('utf-8')
+                winted_token   = jwt.encode({'user_id' : users[0].id}, SECRET, algorithm = ALGORITHM).decode('utf-8')
                 return JsonResponse({"message":"SUCCESS",'authorization':winted_token,'user_data' : user_data},status=201)
 
             else:
