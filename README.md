@@ -22,6 +22,8 @@
 
 ## 🌃 프로젝트 영상
 https://www.youtube.com/watch?v=QYjbZsKxNwA&t=25s
+## 🌃 프로젝트 후기
+김형욱 : https://velog.io/@kho5420/Wanted-2%EC%B0%A8-%ED%81%B4%EB%A1%A0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8
 ## 🌃 기술 스택
 ### 👩‍👧‍👧‍👧 FrontEnd
 + HTML/CSS
