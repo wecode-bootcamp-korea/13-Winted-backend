@@ -123,9 +123,8 @@ class CompanyListView(View): # 탐색페이지 회사공고 리스트
             'compensation'  : job.compensation.applicant + job.compensation.recommender,
             'likes_count'   : job.likes_count,
             'image_url'     : job.image_url.split(',')[0],
-            'like_status'   : True if (user != None) and (job.id in like_list) else False
+            'likes_status'  : True if (user != None) and (job.id in like_list) else False
         } for job in company_list[offset:limit]]
-
         return JsonResponse({'message' : 'SUCCESS', 'job_list' : job_list}, status = 200)
 
 class CompanyListDetailView(View): # 회사공고 상세페이지
@@ -151,7 +150,7 @@ class CompanyListDetailView(View): # 회사공고 상세페이지
             'deadline'                 : job.deadline,
             'address'                  : job.address,
             'location'                 : [location.latitude, location.longitude],
-            'like_status'              : True if (user != None) and (job.likes.exists()) else False,
+            'likes_status'             : True if (user != None) and (job.likes.exists()) else False,
             'image_url'                : [image for image in job.image_url.split(',')],
             'tag_list' : [{
                 'id'   : tag.id,

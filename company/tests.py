@@ -296,7 +296,7 @@ class CompanyListTest(TestCase):
                     'compensation'  : 200,
                     'likes_count'   : 100,
                     'image_url'     : 'image_url',
-                    'like_status'   : False
+                    'likes_status'  : False
                 }]
             }
         )
@@ -326,7 +326,7 @@ class CompanyListTest(TestCase):
                     'deadline'                 : 'deadline',
                     'address'                  : 'address',
                     'location'                 : ['100.000000', '100.000000'],
-                    'like_status'              : False,
+                    'likes_status'             : False,
                     'image_url'                : ['image_url', ' image_url2'],
                     'tag_list' : [{
                         'id'   : 1,

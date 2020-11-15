@@ -49,10 +49,10 @@ class RecommenderView(View):
                 'category'          : recommender.category.name,
                 'contents'          : recommender.contents
             } for recommender in Recommender.objects.select_related('to_user', 'category').filter(from_user = user_id)]
-        
+
             return JsonResponse({'message' : 'SUCCESS', 'written_list' : written_list}, status = 200)   
 
-        if recommend_type == 'given': # 내가 받은 추천
+        elif recommend_type == 'given': # 내가 받은 추천
             given_list = [{
                 'id'                : recommender.id,
                 'profile_image_url' : recommender.from_user.profile_image_url,
@@ -63,6 +63,9 @@ class RecommenderView(View):
             } for recommender in Recommender.objects.select_related('from_user', 'category').filter(to_user = user_id)]
 
             return JsonResponse({'message' : 'SUCCESS', 'given_list' : given_list}, status = 200)
+        
+        else:
+            return JsonResponse({'message' : 'INVALID_RECOMMEND_TYPE'}, status = 400)
     
     @token_check
     def patch(self, request): # 추천사 수정 (내가한추천)
