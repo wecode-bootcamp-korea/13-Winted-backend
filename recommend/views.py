@@ -92,6 +92,7 @@ class RecommenderView(View):
 
 class KakaoMessageView(View):
     def post(self, request):
+        
         API_HOST = 'https://kapi.kakao.com/v2/api/talk/memo/send?template_id=40542'
 
         access_token    = request.headers.get('Authorization')
