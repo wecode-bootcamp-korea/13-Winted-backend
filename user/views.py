@@ -10,7 +10,7 @@ from django.http  import JsonResponse
 from my_settings  import SECRET,ALGORITHM
 from .models      import User,Like,AppliedStatus,UserTagFilter,UserDistrictFilter,UserCareerFilter
 from .utils       import token_check
-from company.models import Company,Tag,District
+from company.models import Company
 
 class DuplicationView(View):
     def post(self , request):
