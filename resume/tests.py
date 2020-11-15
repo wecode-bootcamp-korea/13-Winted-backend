@@ -85,34 +85,18 @@ class ResumeListTest(TestCase):
 
     def test_resumelist_delete_success(self):
         client = Client()
-<<<<<<< HEAD
-        resume = { 'id' : 1 }
-        response = client.delete('/resume', json.dumps(resume), content_type='application/json', **header)
+        response = client.delete('/resume?id=1', **header)
         self.assertEqual(response.status_code, 200)
-    
-    def test_resumelist_delete_invalid_keys(self):
-        client = Client()
-        resume = { 'idf' : 1 }
-        response = client.delete('/resume', json.dumps(resume), content_type='application/json', **header)
-        self.assertEqual(response.json(),
-            {
-                'message' : 'KEY_ERROR_id'
-            }
-        )
-        self.assertEqual(response.status_code, 400)
     
     def test_resumelist_delete_not_found(self):
         client = Client()
-        resume = { 'id' : 1 }
-        response = client.delete('/resume/', json.dumps(resume), content_type='application/json', **header)
-=======
         response = client.delete('/resume?id=1', **header)
         self.assertEqual(response.status_code, 200)
     
     def test_resumelist_delete_not_found(self):
         client = Client()
         response = client.delete('/resume/', **header)
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
+        response = client.delete('/resume/', **header)
         self.assertEqual(response.status_code, 404)
 
 class ResumeDetailListTest(TestCase):
@@ -310,54 +294,29 @@ class QualificationTest(TestCase):
     
     def test_usercareer_delete_success(self):
         client = Client()
-<<<<<<< HEAD
-        career = { 'career_id' : 1 }
-        response = client.delete('/resume/1/career', json.dumps(career), content_type='application/json')
+        response = client.delete('/resume/1/career?id=1')
         self.assertEqual(response.status_code, 200)
-    
-    def test_usercareer_delete_invalid_keys(self):
-        client = Client()
-        career = { 'career_idf' : 1 }
-        response = client.delete('/resume/1/career', json.dumps(career), content_type='application/json')
-        self.assertEqual(response.json(),
-            {
-                'message' : 'KEY_ERROR_career_id'
-            }
-        )
-        self.assertEqual(response.status_code, 400)
     
     def test_usercareer_delete_not_found(self):
         client = Client()
-        career = { 'career_id' : 1 }
-        response = client.delete('/resume/1/career/', json.dumps(career), content_type='application/json')
-=======
         response = client.delete('/resume/1/career?id=1')
         self.assertEqual(response.status_code, 200)
     
     def test_usercareer_delete_not_found(self):
         client = Client()
         response = client.delete('/resume/1/career/')
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
+        response = client.delete('/resume/1/career/')
         self.assertEqual(response.status_code, 404)
     
     def test_education_post_success(self):
         client = Client()
         education = {
-<<<<<<< HEAD
-            'university_name' : 'university_name',
-            'major'           : 'major',
-            'subject'         : 'subject',
-            'start_date'      : '2020-11-08',
-            'end_date'        : '2020-11-08',
-            'resume_id'       : 1
-=======
             'university_name'      : 'university_name',
             'major'                : 'major',
             'subject'              : 'subject',
             'education_start_date' : '2020-11-08',
             'education_end_date'   : '2020-11-08',
             'resume_id'            : 1
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
         }
         response = client.post('/resume/1/education', json.dumps(education), content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -365,21 +324,12 @@ class QualificationTest(TestCase):
     def test_education_post_invalids_keys(self):
         client = Client()
         education = {
-<<<<<<< HEAD
-            'university_namde' : 'university_name',
-            'major'            : 'major',
-            'subject'          : 'subject',
-            'start_date'       : '2020-11-08',
-            'end_date'         : '2020-11-08',
-            'resume_id'        : 1
-=======
             'university_namde'     : 'university_name',
             'major'                : 'major',
             'subject'              : 'subject',
             'education_start_date' : '2020-11-08',
             'education_end_date'   : '2020-11-08',
             'resume_id'            : 1
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
         }
         response = client.post('/resume/1/education', json.dumps(education), content_type='application/json')
         self.assertEqual(response.json(),
@@ -392,55 +342,30 @@ class QualificationTest(TestCase):
     def test_education_post_not_found(self):
         client = Client()
         education = {
-<<<<<<< HEAD
-            'university_name' : 'university_name',
-            'major'           : 'major',
-            'subject'         : 'subject',
-            'start_date'      : '2020-11-08',
-            'end_date'        : '2020-11-08',
-            'resume_id'       : 1
-=======
             'university_name'      : 'university_name',
             'major'                : 'major',
             'subject'              : 'subject',
             'education_start_date' : '2020-11-08',
             'education_end_date'   : '2020-11-08',
             'resume_id'            : 1
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
         }
         response = client.post('/resume/1/education/', json.dumps(education), content_type='application/json')
         self.assertEqual(response.status_code, 404)
     
     def test_education_delete_success(self):
         client = Client()
-<<<<<<< HEAD
-        education = { 'education_id' : 1 }
-        response = client.delete('/resume/1/education', json.dumps(education), content_type='application/json')
+        response = client.delete('/resume/1/education?id=1')
         self.assertEqual(response.status_code, 200)
-    
-    def test_education_delete_invalid_keys(self):
-        client = Client()
-        education = { 'education_idf' : 1 }
-        response = client.delete('/resume/1/education', json.dumps(education), content_type='application/json')
-        self.assertEqual(response.json(),
-            {
-                'message' : 'KEY_ERROR_education_id'
-            }
-        )
-        self.assertEqual(response.status_code, 400)
     
     def test_education_delete_not_found(self):
         client = Client()
-        education = { 'education_id' : 1 }
-        response = client.delete('/resume/1/education/', json.dumps(education), content_type='application/json')
-=======
         response = client.delete('/resume/1/education?id=1')
         self.assertEqual(response.status_code, 200)
     
     def test_education_delete_not_found(self):
         client = Client()
         response = client.delete('/resume/1/education/')
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
+        response = client.delete('/resume/1/education/')
         self.assertEqual(response.status_code, 404)
     
     def test_award_post_success(self):
@@ -483,34 +408,18 @@ class QualificationTest(TestCase):
 
     def test_award_delete_success(self):
         client = Client()
-<<<<<<< HEAD
-        award = { 'award_id' : 1 }
-        response = client.delete('/resume/1/award', json.dumps(award), content_type='application/json')
+        response = client.delete('/resume/1/award?id=1')
         self.assertEqual(response.status_code, 200)
-    
-    def test_award_delete_invalid_keys(self):
-        client = Client()
-        award = { 'award_idf' : 1 }
-        response = client.delete('/resume/1/award', json.dumps(award), content_type='application/json')
-        self.assertEqual(response.json(),
-            {
-                'message' : 'KEY_ERROR_award_id'
-            }
-        )
-        self.assertEqual(response.status_code, 400)
     
     def test_award_delete_not_found(self):
         client = Client()
-        award = { 'award_id' : 1 }
-        response = client.delete('/resume/1/award/', json.dumps(award), content_type='application/json')
-=======
         response = client.delete('/resume/1/award?id=1')
         self.assertEqual(response.status_code, 200)
     
     def test_award_delete_not_found(self):
         client = Client()
         response = client.delete('/resume/1/award/')
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
+        response = client.delete('/resume/1/award/')
         self.assertEqual(response.status_code, 404)
     
     def test_foreignlanguage_post_success(self):
@@ -550,28 +459,11 @@ class QualificationTest(TestCase):
 
     def test_foreignlanguage_delete_success(self):
         client = Client()
-<<<<<<< HEAD
-        language = { 'language_id' : 1 }
-        response = client.delete('/resume/1/language', json.dumps(language), content_type='application/json')
+        response = client.delete('/resume/1/language?id=1')
         self.assertEqual(response.status_code, 200)
-    
-    def test_foreignlanguage_delete_invalid_keys(self):
-        client = Client()
-        language = { 'language_idf' : 1 }
-        response = client.delete('/resume/1/language', json.dumps(language), content_type='application/json')
-        self.assertEqual(response.json(),
-            {
-                'message' : 'KEY_ERROR_language_id'
-            }
-        )
-        self.assertEqual(response.status_code, 400)
     
     def test_foreignlanguage_delete_not_found(self):
         client = Client()
-        language = { 'language_id' : 1 }
-        response = client.delete('/resume/1/language/', json.dumps(language), content_type='application/json')
-        self.assertEqual(response.status_code, 404)
-=======
         response = client.delete('/resume/1/language?id=1')
         self.assertEqual(response.status_code, 200)
     
@@ -579,4 +471,5 @@ class QualificationTest(TestCase):
         client = Client()
         response = client.delete('/resume/1/language/')
         self.assertEqual(response.status_code, 404)
->>>>>>> 20dac69... Add : 탐색페이지(카테고리,필터리스트,회사공고 리스트,회사공고 상세페이지,회사 리스트 필터링)
+        response = client.delete('/resume/1/language/')
+        self.assertEqual(response.status_code, 404)
