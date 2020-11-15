@@ -21,7 +21,7 @@
 **2020.11.02 ~ 2020.11.13** 약 2주간 진행
 
 ## 🌃 프로젝트 영상
-!youtube[QYjbZsKxNwA]
+https://www.youtube.com/watch?v=QYjbZsKxNwA&t=25s
 ## 🌃 기술 스택
 ### 👩‍👧‍👧‍👧 FrontEnd
 + HTML/CSS
